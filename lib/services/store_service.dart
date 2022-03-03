@@ -4,7 +4,7 @@ import 'package:firenoteapp/services/log_service.dart';
 
 class StoreService {
   static final _storage = FirebaseStorage.instance.ref();
-  static const folder = "post_images";
+  static const folder = "note_images";
 
   static Future<String?> uploadImage(File _image) async {
     String imgName = "image_" + DateTime.now().toString();

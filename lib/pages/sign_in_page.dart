@@ -8,6 +8,7 @@ import 'package:lottie/lottie.dart';
 
 import '../services/auth_services.dart';
 import '../services/hive_service.dart';
+import '../services/log_service.dart';
 import 'home_page.dart';
 
 class SignInPage extends StatefulWidget {
@@ -34,10 +35,9 @@ class _SignInPageState extends State<SignInPage> {
 
   void getUser(User? user) async {
     if (user != null) {
-      HiveService.saveUserId(user.uid);
+      HiveService.saveUserId(StorageKeys.UID,user.uid);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomePage(user: user,)));
-
-      print(HiveService.loadUserId('userId'));
+      Log.i(HiveService.loadUserId(StorageKeys.UID).toString());
     } else {
       if (kDebugMode) {
         print("Null response");

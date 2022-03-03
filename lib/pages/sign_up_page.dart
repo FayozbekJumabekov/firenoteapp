@@ -42,8 +42,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
   void getUser(User? firebaseuser) async {
     if (firebaseuser != null) {
-      HiveService.saveUserId(firebaseuser.uid);
-      (HiveService.loadUserId('userId').then((value) => {
+      HiveService.saveUserId(StorageKeys.UID,firebaseuser.uid);
+      (HiveService.loadUserId(StorageKeys.UID).then((value) => {
         Log.w(value)
       }));
       Navigator.pushReplacementNamed(context, SignInPage.id);

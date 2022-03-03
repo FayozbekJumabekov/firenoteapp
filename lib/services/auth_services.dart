@@ -65,14 +65,14 @@ class AuthenticationService {
 
   /// SignOut
   static Future<void> signOutUser(BuildContext context) async {
-    HiveService.remoUserId();
+    HiveService.remoUserId(StorageKeys.UID);
     return await auth.signOut().then(
         (value) => {Navigator.pushReplacementNamed(context, SignInPage.id)});
   }
 
   /// Delete Account
   static Future<void> deleteUser(BuildContext context) async {
-    HiveService.remoUserId();
+    HiveService.remoUserId(StorageKeys.UID);
     try {
       await auth.currentUser!.delete().then((value) => {
         Log.i("Successfully Deleted"),

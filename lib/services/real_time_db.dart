@@ -4,9 +4,11 @@ import '../models/note_model.dart';
 
 class RTDBService {
   static DatabaseReference ref = FirebaseDatabase.instance.ref();
+  static const String apiNote = "notes";
+
 
   static Future<Stream<DatabaseEvent>> addNote(Note note) async {
-    await ref.child("notes").push().set(note.toJson());
+    await ref.child(apiNote).push().set(note.toJson());
     return ref.onChildAdded;
   }
 
@@ -20,7 +22,7 @@ class RTDBService {
   // }
 
   static Future<Map<String?, Note?>?>? loadNoteWithKey(String id) async {
-    Query? _query = ref.child("notes").orderByChild("userId").equalTo(id);
+    Query? _query = ref.child(apiNote).orderByChild("userId").equalTo(id);
     var event = await _query.once();
     var result = event.snapshot.children;
     Map<String?, Note?> notes = {};
@@ -41,7 +43,7 @@ class RTDBService {
   // }
 
   static Future<void> removeNoteWithKey(String key) async {
-        await ref.child('notes/$key').remove();
+        await ref.child('$apiNote/$key').remove();
     // Query? _query = ref.child("notes").orderByChild("userId").equalTo(id);
     // var event = await _query.once();
     // var result = event.snapshot.children;
@@ -49,6 +51,6 @@ class RTDBService {
     // await note.ref.remove();
   }
   static Future<void> updateNoteWithKey(String key,Note note)async{
-    await ref.child('notes/$key').update(note.toJson());
+    await ref.child('$apiNote/$key').update(note.toJson());
   }
 }

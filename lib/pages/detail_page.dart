@@ -59,7 +59,7 @@ class _DetailPageState extends State<DetailPage> {
   /// Save not Without Image
 
   void saveNoteWithoutImage(String title,String content)async{
-    String id = await HiveService.loadUserId('userId');
+    String id = await HiveService.loadUserId(StorageKeys.UID);
     Note note = Note(userId: id,title: title, content: content,image: null);
     RTDBService.addNote(note).then((value) {
       Log.i('Successfully added Note');
@@ -69,7 +69,7 @@ class _DetailPageState extends State<DetailPage> {
 
   /// Save Note With Image
   void saveNoteWithImage(String title,String content,String? image)async{
-      String id = await HiveService.loadUserId('userId');
+      String id = await HiveService.loadUserId(StorageKeys.UID);
       Note note = Note(userId: id,title: title, content: content,image: image);
       RTDBService.addNote(note).then((value) {
         setState(() { isLoading = false;});

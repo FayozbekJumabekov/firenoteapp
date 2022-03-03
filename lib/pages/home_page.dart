@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       isLoading = true;
     });
-    String id = await HiveService.loadUserId("userId");
+    String id = await HiveService.loadUserId(StorageKeys.UID);
     RTDBService.loadNoteWithKey(id)?.then((value) => {
           if (value != null)
             {
@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
   void deleteNote({required int index, required String key}) async {
     await RTDBService.removeNoteWithKey(key);
     setState(() {
-      listNote.removeAt(index);
+      getFireNotes();
     });
   }
 

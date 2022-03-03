@@ -27,10 +27,10 @@ class MyApp extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (BuildContext context, snapshot) {
         if (snapshot.hasData) {
-          HiveService.saveUserId(snapshot.data!.uid);
+          HiveService.saveUserId(StorageKeys.UID,snapshot.data!.uid);
           return HomePage(user: AuthenticationService.auth.currentUser!,);
         } else {
-          HiveService.remoUserId();
+          HiveService.remoUserId(StorageKeys.UID);
           return SignInPage();
         }
       },
@@ -44,7 +44,8 @@ class MyApp extends StatelessWidget {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge,
         overlays: [SystemUiOverlay.bottom]);
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        systemNavigationBarColor: Colors.transparent));
+        systemNavigationBarColor: Colors.transparent,
+    ));
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Fire Note Demo',
