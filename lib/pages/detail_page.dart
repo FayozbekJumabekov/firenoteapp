@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:firenoteapp/models/note_model.dart';
 import 'package:firenoteapp/services/hive_service.dart';
 import 'package:firenoteapp/services/log_service.dart';
@@ -121,103 +120,98 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return  WillPopScope(
-      onWillPop: () async{
-        return false;
-      },
-      child: Scaffold(
+    return  Scaffold(
+      backgroundColor: Colors.white,
+      /// Appbar
+      appBar: AppBar(
         backgroundColor: Colors.white,
-        /// Appbar
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          /// Back Button
-          leading: IconButton(
-            icon: const Icon(
-              CupertinoIcons.arrow_left,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+        elevation: 0,
+        /// Back Button
+        leading: IconButton(
+          icon: const Icon(
+            CupertinoIcons.arrow_left,
+            color: Colors.black,
           ),
-          actions: [
-
-            /// Save Button
-            TextButton(
-                onPressed: () {
-                  saveOrEditNote();
-                },
-                child: const Text(
-                  "Save",
-                  style: TextStyle(color: Colors.black,fontSize: 18),
-                ))
-          ],
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
-        /// Body
-        body: SingleChildScrollView(
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
+        actions: [
 
-                /// Add title
-                TextField(
-                  controller: titleController,
-                  cursorColor: Colors.amber,
-                  cursorHeight: 30,
-                  maxLines: null,
+          /// Save Button
+          TextButton(
+              onPressed: () {
+                saveOrEditNote();
+              },
+              child: const Text(
+                "Save",
+                style: TextStyle(color: Colors.black,fontSize: 18),
+              ))
+        ],
+      ),
+      /// Body
+      body: SingleChildScrollView(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
 
-                  style: const TextStyle(fontSize: 25, fontWeight: FontWeight.w600,color: Colors.black,),
-                  decoration: const InputDecoration(
-                    isCollapsed: true,
-                    hintText: " Title",
-                    hintStyle: TextStyle(
-                        fontSize: 25,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.normal),
-                    border: InputBorder.none,
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
+              /// Add title
+              TextField(
+                controller: titleController,
+                cursorColor: Colors.amber,
+                cursorHeight: 30,
+                maxLines: null,
 
-                /// Add Content
-                TextField(
-                  controller: contentController,
-                  cursorColor: Colors.amber,
-                  cursorHeight: 22,
-                  maxLines: null,
-                  style: const TextStyle(fontSize: 16,color: Colors.black,),
-                  decoration: const InputDecoration(
-                    isCollapsed: true,
-                    hintText: "  Start typing...",
-                    hintStyle: TextStyle(
-                      fontSize: 16,
+                style: const TextStyle(fontSize: 25, fontWeight: FontWeight.w600,color: Colors.black,),
+                decoration: const InputDecoration(
+                  isCollapsed: true,
+                  hintText: " Title",
+                  hintStyle: TextStyle(
+                      fontSize: 25,
                       color: Colors.grey,
-                    ),
-                    border: InputBorder.none,
-                  ),
+                      fontWeight: FontWeight.normal),
+                  border: InputBorder.none,
                 ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
 
-                /// Add image
-                const SizedBox(height: 20,),
-                GestureDetector(
-                    onTap: (){
-                      _getImage();
-                    },
-                    child: (_image != null) ? Image.file(_image!,height: 300,width: 400,fit: BoxFit.cover,) :Image(image: AssetImage('assets/images/im_upload.png'),width: 200,height: 150,)),
-                Text("Click for upload image",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
-                (isLoading)
-                    ? Center(
-                  child: Lottie.asset('assets/anims/loading.json', width: 200),
-                ) : SizedBox.shrink()
+              /// Add Content
+              TextField(
+                controller: contentController,
+                cursorColor: Colors.amber,
+                cursorHeight: 22,
+                maxLines: null,
+                style: const TextStyle(fontSize: 16,color: Colors.black,),
+                decoration: const InputDecoration(
+                  isCollapsed: true,
+                  hintText: "  Start typing...",
+                  hintStyle: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey,
+                  ),
+                  border: InputBorder.none,
+                ),
+              ),
 
-              ],
-            ),
+              /// Add image
+              const SizedBox(height: 20,),
+              GestureDetector(
+                  onTap: (){
+                    _getImage();
+                  },
+                  child: (_image != null) ? Image.file(_image!,height: 300,width: 400,fit: BoxFit.cover,) :Image(image: AssetImage('assets/images/im_upload.png'),width: 200,height: 150,)),
+              Text("Click for upload image",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+              (isLoading)
+                  ? Center(
+                child: Lottie.asset('assets/anims/loading.json', width: 200),
+              ) : SizedBox.shrink()
+
+            ],
           ),
         ),
       ),

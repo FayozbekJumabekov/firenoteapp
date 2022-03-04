@@ -7,20 +7,13 @@ class RTDBService {
   static const String apiNote = "notes";
 
 
+  /// Add Note
   static Future<Stream<DatabaseEvent>> addNote(Note note) async {
     await ref.child(apiNote).push().set(note.toJson());
     return ref.onChildAdded;
   }
 
-  // static Future<List<Note?>?>? loadNote(String id) async {
-  //   Query? _query = ref.child("notes").orderByChild("userId").equalTo(id);
-  //   var event = await _query.once();
-  //   var result = event.snapshot.children;
-  //   List<Note?>? notes =
-  //       List.from(result.map((data) => Note.fromJson(data.value as Map)));
-  //   return notes;
-  // }
-
+  /// Load Notes
   static Future<Map<String?, Note?>?>? loadNoteWithKey(String id) async {
     Query? _query = ref.child(apiNote).orderByChild("userId").equalTo(id);
     var event = await _query.once();
@@ -32,24 +25,13 @@ class RTDBService {
     return notes;
   }
 
-  // static Future<void> removeNote(String id, int index) async {
-  //   Query? _query = ref.child("notes").orderByChild("userId").equalTo(id);
-  //   var event = await _query.once();
-  //   var result = event.snapshot.children;
-  //   // String key
-  //   // var note = result.singleWhere((element) => key == element.key);
-  //   // await note.ref.remove();
-  //   await result.elementAt(index).ref.remove();
-  // }
-
+  /// Remove Note
   static Future<void> removeNoteWithKey(String key) async {
         await ref.child('$apiNote/$key').remove();
-    // Query? _query = ref.child("notes").orderByChild("userId").equalTo(id);
-    // var event = await _query.once();
-    // var result = event.snapshot.children;
-    // var note = result.singleWhere((element) => key == element.key);
-    // await note.ref.remove();
+
   }
+
+  /// Update Note
   static Future<void> updateNoteWithKey(String key,Note note)async{
     await ref.child('$apiNote/$key').update(note.toJson());
   }
