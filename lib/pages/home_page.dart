@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firenoteapp/pages/detail_page.dart';
+import 'package:firenoteapp/pages/image_detail.dart';
 import 'package:firenoteapp/services/auth_services.dart';
 import 'package:firenoteapp/services/hive_service.dart';
 import 'package:firenoteapp/services/real_time_db.dart';
@@ -221,10 +222,9 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
   Widget noteItems(Note note, int index) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: Column(
         children: [
           /// Title
@@ -270,21 +270,48 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(
                   height: 20,
                 ),
-                Container(
-                  child: note.image != null
-                      ? Image.network(
-                          note.image!,
-                          fit: BoxFit.cover,
-                        )
-                      : Container(
-                          color: Colors.red,
-                        ),
-                ),
+                (note.image != null)  ? GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(PageRouteBuilder(
+                        fullscreenDialog: true,
+                        transitionDuration: Duration(milliseconds: 1000),
+                        pageBuilder: (BuildContext context,
+                            Animation<double> animation,
+                            Animation<double> secondaryAnimation) {
+                          return ImageDetail(note: note);
+                        },
+                        transitionsBuilder: (BuildContext context,
+                            Animation<double> animation,
+                            Animation<double> secondaryAnimation,
+                            Widget child) {
+                          return FadeTransition(
+                              opacity: CurvedAnimation(
+                                  parent: animation,
+                                  curve: Curves.elasticInOut,
+
+                              ),
+                            child: child,
+                          );
+                        }));
+                  },
+                  child: Hero(
+                    tag: note.image!,
+                    transitionOnUserGestures: true,
+                    child: Container(
+                        child: note.image != null
+                            ? Image.network(
+                                note.image!,
+                                fit: BoxFit.cover,
+                                height: note.image != null ? 300 : null,
+                              )
+                            : null),
+                  ),
+                ) : SizedBox.shrink(),
               ],
             ),
           ),
 
-          /// Image
+          /// Buttons
           Container(
             padding: EdgeInsets.only(left: 10),
             height: 40,

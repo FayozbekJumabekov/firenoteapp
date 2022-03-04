@@ -114,6 +114,7 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   void initState() {
+
     super.initState();
     loadNote(widget.note);
   }
@@ -208,7 +209,8 @@ class _DetailPageState extends State<DetailPage> {
                     onTap: (){
                       _getImage();
                     },
-                    child: Image(image: AssetImage('assets/images/im_upload.png'),width: 200,height: 150,)),
+                    child: (_image != null) ? Image.file(_image!,height: 300,width: 400,fit: BoxFit.cover,) :Image(image: AssetImage('assets/images/im_upload.png'),width: 200,height: 150,)),
+                Text("Click for upload image",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
                 (isLoading)
                     ? Center(
                   child: Lottie.asset('assets/anims/loading.json', width: 200),
@@ -220,19 +222,6 @@ class _DetailPageState extends State<DetailPage> {
         ),
       ),
     );
-  }
-
-
-
-  Future<bool> onWillPop() {
-    DateTime now = DateTime.now();
-    if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime!) > const Duration(seconds: 2)) {
-      currentBackPressTime = now;
-      Navigator.pop(context,true);
-      return Future.value(false);
-    }
-    return Future.value(true);
   }
 
 }
